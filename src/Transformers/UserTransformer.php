@@ -3,8 +3,6 @@
 namespace App\Transformers;
 
 use App\Documents\User;
-use App\Exceptions\InvalidParamsException;
-use League\Fractal\ParamBag;
 use League\Fractal\TransformerAbstract;
 use Symfony\Component\Security\Core\Security;
 
@@ -17,10 +15,9 @@ class UserTransformer extends TransformerAbstract
 
     protected array $defaultIncludes = [];
 
-    private $validParams = ['limit'];
     private $security;
 
-    public function __construct(?Security $security)
+    public function __construct(Security $security)
     {
         $this->security = $security;
     }
@@ -42,32 +39,12 @@ class UserTransformer extends TransformerAbstract
         return $result;
     }
 
-    public function includeBlogs(User $user, ParamBag $params)
+    public function includeBlogs(User $user)
     {
-        $blogs = $user->getBlogs();
+        $blogs = $user->getBlogs()->toArray();
 
-        $limit = htmlspecialchars($_GET['limit'] ?? null);
-
-
-
-        // dd($_GET['include']);
-        if (count($params->getIterator()) > 0) {
-
-            dd(null);
-            // shape data according to the params
-            $usedParams = array_keys(iterator_to_array($params));
-            $invalidParams = array_diff($usedParams, $this->validParams);
-            // invalidParams that were sent and are not valid
-            if ($invalidParams) {
-                throw new InvalidParamsException(400, "Invalid Params");
-            }
-
-            // list($limit, $offset) = $params->get('limit');
-            $blogs = $user
-                ->getBlogs();
-        }
-        return $this->collection($blogs, new BlogTransformer);
-        // https://fractal.thephpleague.com/pagination/
+        // dd($blogs);
+        return $this->collection($blogs, new BlogTransformer($this->security));
     }
 }
 //

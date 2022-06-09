@@ -13,7 +13,7 @@ class DefaultManager
     {
         if (self::$instance == null) {
             self::$instance = new Manager();
-            self::$instance->setSerializer(new JsonApiSerializer());
+            // self::$instance->setSerializer(new JsonApiSerializer());
 
             if (isset($_GET['include'])) {
                 self::$instance->parseIncludes($_GET['include']);

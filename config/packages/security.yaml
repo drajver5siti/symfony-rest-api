@@ -9,6 +9,8 @@ security:
         my_mongo_provider: 
             mongodb: {class: App\Documents\User, property: username}
 
+    access_decision_manager:
+        strategy: unanimous
 
     firewalls:        
         # login:

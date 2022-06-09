@@ -5,15 +5,40 @@ namespace App\Commands;
 
 class RegisterUserCommand
 {
-    private $data;
 
-    public function __construct(array $data)
+    private string $username;
+    private string $password;
+    private int $age;
+
+    public function __construct(string $username, string $password, int $age)
     {
-        $this->data = $data;
+        $this->username = $username;
+        $this->password = $password;
+        $this->age = $age;
     }
 
-    public function getData(): array
+
+    /**
+     * Get the value of username
+     */
+    public function getUsername()
     {
-        return $this->data;
+        return $this->username;
+    }
+
+    /**
+     * Get the value of password
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Get the value of age
+     */
+    public function getAge()
+    {
+        return $this->age;
     }
 }

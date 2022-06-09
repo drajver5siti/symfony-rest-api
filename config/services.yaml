@@ -28,14 +28,28 @@ services:
         resource: '../src/Fixtures'
         tags: ['doctrine.fixture.odm.mongodb']
 
+
     App\Handlers\RegisterUserHandler:
-        # class: App\Handlers\RegisterUserHandler
         tags:
             # - { name: tactician.handler, command: App\Commands\RegisterUserCommand}
             - { name: tactician.handler, typehints: true}
 
+    App\Handlers\CreateBlogHandler:
+        tags:
+            - { name: tactician.handler, typehints: true }
+
+    App\Handlers\EditBlogHandler:
+        tags:
+            - { name: tactician.handler, typehints: true }
+
+    
     App\EventListeners\ExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception}
+
+    
+    App\EventListeners\JWTCreatedListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated  }
         
         

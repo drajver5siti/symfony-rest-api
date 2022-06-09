@@ -20,8 +20,11 @@ class Blog
     #[ODM\Field(type: 'date')]
     private $datePublished;
 
-    #[ODM\ReferenceOne(targetDocument: User::class)]
+    #[ODM\ReferenceOne(targetDocument: User::class, inversedBy: 'blogs')]
     private $createdBy;
+
+    #[ODM\Field(type: 'bool')]
+    private $isForAdults;
 
     /**
      * Get the value of id
@@ -107,6 +110,26 @@ class Blog
     public function setCreatedBy(User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of isForAdults
+     */
+    public function getIsForAdults(): bool
+    {
+        return $this->isForAdults ?? false;
+    }
+
+    /**
+     * Set the value of isForAdults
+     * 
+     * @return  self
+     */
+    public function setIsForAdults(bool $isForAdults)
+    {
+        $this->isForAdults = $isForAdults;
 
         return $this;
     }

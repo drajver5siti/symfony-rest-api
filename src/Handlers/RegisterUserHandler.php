@@ -23,10 +23,9 @@ class RegisterUserHandler
     public function handle(RegisterUserCommand $command)
     {
         $repo = $this->dm->getRepository(User::class);
-        $data = $command->getData();
 
         $exists = count($repo->findBy([
-            "username" => $data['username']
+            "username" => $command->getUsername()
         ]));
 
         if ($exists)
@@ -34,9 +33,9 @@ class RegisterUserHandler
 
         $user = new User();
         $user
-            ->setUsername($data['username'])
-            ->setPassword($data['password'])
-            ->setAge($data['age']);
+            ->setUsername($command->getUsername())
+            ->setPassword($command->getPassword())
+            ->setAge($command->getAge());
 
         $hashedPassword = $this->hasher->hashPassword($user, $user->getPassword());
         $user->setPassword($hashedPassword);

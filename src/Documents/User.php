@@ -9,6 +9,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use function PHPSTORM_META\type;
+
 #[ODM\Document(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -27,7 +29,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ODM\Field(type: 'int')]
     private $age;
 
-    #[ODM\ReferenceMany(targetDocument: Blog::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ODM\ReferenceMany(targetDocument: Blog::class, mappedBy: 'createdBy')]
     private $blogs;
 
     public function __construct()
